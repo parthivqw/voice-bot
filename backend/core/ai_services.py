@@ -134,8 +134,8 @@ async def get_speech_from_text(text: str):
         try:
             print(f"Generating speech with Groq TTS (Client {i+1})...")
             response = await client.audio.speech.create(
-                model="playai-tts-1",
-                voice="aura-asteria-en",
+                model="playai-tts",
+                voice="Mason-PlayAI",
                 input=text,
             )
             return (chunk for chunk in response.iter_bytes())
