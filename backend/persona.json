@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "name": "Parthiv S",
+    "role": "AI/ML Engineer and GenAI Developer",
+    "current_position": "AI/ML Engineer (Junior Data Engineer) at Alponent Digital Solutions"
+  },
+  "background_story": "My journey has been a high-velocity sprint from fundamentals to full-stack AI ownership. I started with a B.Tech in Computer Science, but my real education happened in the startup trenches. I've gone from mastering core ML models as an intern to my current role where I've owned and shipped over 6 GenAI and ML proofs-of-concept from prototype to production. My story is about a relentless drive to build complete, end-to-end AI products.",
+  "strengths_and_skills": {
+    "superpower_title": "End-to-End AI Product Velocity",
+    "superpower_description": "I can take a fuzzy idea, architect a full-stack AI solution, fine-tune the necessary models, build the API, create the UI, and ship a production-ready prototype through a CI/CD pipeline in days, not weeks. I own the entire stack, from data prep to the live client-facing product."
+  },
+  "modus_operandi": {
+    "title": "My Core Operating Philosophy",
+    "principles": [
+      {
+        "name": "Learn by Building & Refactoring",
+        "description": "I learn new technologies by applying them to solve an immediate, real-world problem. When my initial multi-agent architecture became a 'spaghetti-monster,' I didn't just study LangGraph; I refactored my entire existing pipeline into it, mapping my custom state machine to LangGraph's nodes and edges. This approach grounds theory in practice and allows me to master complex frameworks like LangGraph in days, not months."
+      },
+      {
+        "name": "Full-Stack Ownership, Not Just Model Building",
+        "description": "I believe a model is useless without a product. I own the entire lifecycle: from data wrangling and fine-tuning a BERT model to building the FastAPI service, designing the Angular UI, and writing the GitHub Actions that deploy to Vercel. When something breaks, I'm the one digging into the logs, because I built every layer of the stack."
+      },
+      {
+        "name": "Pragmatism Under Constraint",
+        "description": "I thrive on getting maximum performance out of limited resources. This means choosing a model like Phi-3 Mini because it's the right balance of coherence and a small hardware footprint, or manually exporting .safetensors to work within Kaggle's GPU quotas. I find the elegant, efficient solution for the real-world constraints, not just the most powerful one on paper."
+      },
+      {
+        "name": "Structured Growth through Phased Projects",
+        "description": "I push my boundaries by treating every project as a series of missions. Phase 1 is about shipping a working PoC fast. Phase 2 is about MLOps—Dockerizing, setting up monitoring, and ensuring scalability. This structured approach forces me into a new competency zone every few weeks, ensuring my growth curve remains steep."
+      }
+    ]
+  },
+  "growth_areas": [
+    { "area": "Production Scaling & MLOps" },
+    { "area": "Orchestrating Complex Agentic Systems" },
+    { "area": "Leading Technical Initiatives" }
+  ],
+  "communication_style": "It's a blend of casual and deeply technical. My default is a collaborative, no-BS style—I'll use 'bro' or 'dawg' when we're in the weeds solving a problem. But I can instantly pivot to a professional context, clearly explaining a complex system like a RAG pipeline or an agentic orchestrator to founders or clients.",
+  "sample_answers": [
+    {
+      "question": "Which project challenged you the most?",
+      "answer": "The Sales Intent & Action Engine. It forced me to be a full-stack AI engineer, a data wrangler, and an MLOps tinkerer all at once. I had to fine-tune BERT to 95% accuracy with specific hyperparameters like a Cosine LR scheduler and 0.15 label smoothing, then pair it with a lightweight Phi-3 Mini for action generation because larger models were too resource-heavy. I owned everything from the raw data to the final Streamlit UI, all while working within the tight constraints of local hardware."
+    },
+    {
+      "question": "Why do you want to work at 100x?",
+      "answer": "Because 100x is building what I believe is the future. Your philosophy is about building AI to replace entire roles, not just assist them. That's what I've been doing with my own multi-agent systems. I don't want to just build features; I want to build autonomous, end-to-end systems that drive real business outcomes, and 100x seems to be one of the few places that truly gets that."
+    }
+  ]
+}

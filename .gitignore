@@ -1,0 +1,21 @@
+# Ignore Python virtual environment
+backend/venv/
+
+# Ignore Python cache files
+backend/pycache/
+backend/core/pycache/
+backend/models/pycache/
+
+# Ignore sensitive environment variables
+backend/.env
+
+# Ignore generated RAG files (they can be recreated)
+# backend/faiss_index.bin
+# backend/project_chunks.txt
+
+# Ignore Angular node modules
+frontend/angular-ui/node_modules/
+
+# Ignore Angular cache and build folders
+frontend/angular-ui/.angular/
+frontend/angular-ui/dist/

@@ -1,0 +1,79 @@
+### Project 1: LangGraph Multi-Agent System (Agentic UI)
+
+**Vision & Objective:**
+This project is an advanced, multi-agent AI system built to serve as a single, intelligent interface to a suite of specialized AI agents. The core vision is to abstract the complexity of diverse AI workflows (like creative generation, sales analysis, and content strategy) behind a simple, conversational UI. The architecture is explicitly designed for extensibility, allowing new agents to be added via a configuration file (`app_registry.json`) without altering the core codebase, making the system highly scalable and future-proof.
+
+**My Role & Architectural Philosophy:**
+As the sole architect and developer, I designed and implemented the entire system based on a philosophy of "separation of concerns" and "configuration over code". The system follows a hub-and-spoke model with a central orchestrator built using FastAPI for the API layer and LangGraph for managing the stateful, cyclical agentic workflows. My primary challenge and achievement was learning and implementing LangGraph to manage the conversation state and agent transitions, a process I mastered through intensive, focused effort to meet project deadlines.
+
+**Technical Deep Dive & Data Flow:**
+The request lifecycle is a sophisticated, multi-step orchestration pipeline:
+1.  **Ingestion & Validation:** A user's prompt is sent as a JSON request from the frontend to the FastAPI `/generate` endpoint, where it's validated by a Pydantic model to ensure data integrity.
+2.  **Intent Detection:** The central orchestrator (`router_logic.py`) first calls a "receptionist" LLM (Kimi K2) to analyze the prompt, determine the user's true intent, and decide which specialized agent to route the request to.
+3.  **Prompt Chaining & Payload Generation:** In a key architectural pattern, the system then makes a second LLM call. This "creative director" prompt takes the user's simple request and fleshes it out into a detailed, structured JSON payload that matches the required input schema of the selected agent, as defined in the `app_registry.json`.
+4.  **Agent Execution:** The validated payload is then passed to the appropriate specialized agent (e.g., `poster_agent.run`). This agent executes its own internal pipeline, which could be another multi-step process involving further LLM calls or model inference.
+5.  **Hybrid AI Strategy:** A core innovation is the use of layered intelligence. A general-purpose LLM acts as the high-level "understanding" and "creative" layer, while a highly accurate, fine-tuned BERT model I developed acts as a specialized "execution" layer for tasks like sales intent classification.
+6.  **Modular Response Rendering:** The final JSON output from the agent is passed back to the frontend, which uses a modular JavaScript function (`handleAgentResponse`) to inspect the response keys and dynamically render the correct UI components, whether it's an image, a sales analysis, or a content cluster.
+
+**Key Technologies:**
+- **Orchestration:** LangGraph, FastAPI, Python
+- **AI/ML:** Groq (LLaMA 3), Kimi K2, Fine-Tuned BERT, Hugging Face Transformers, PyTorch
+- **Frontend:** HTML5, CSS3, JavaScript (ES6+)
+- **Data & Ops:** Pydantic for schema enforcement, `python-dotenv` for security
+
+---
+
+### Project 2: AI Poster & Image Generator
+
+**Vision & Objective:**
+This is a full-stack, production-ready Generative AI application that allows users to create visually appealing posters and images through a web-based interface. The application features a dual-mode UI for either generating detailed posters with text or creating images directly from a prompt. The entire stack is deployed, with the FastAPI backend on Render and the Angular frontend on Vercel, complete with CI/CD pipelines for automatic updates on each code push.
+
+**My Role & Architectural Philosophy:**
+I owned the entire product lifecycle, from initial prototype to deployed application. The core philosophy was to build a robust and reliable system that could handle the inherent unpredictability of GenAI models.
+- **Backend Deep Dive:** The FastAPI backend orchestrates a complex pipeline of AI models. The `llama_generate_fields.py` module uses a meticulously engineered system prompt—complete with a task flow, rules, field constraints, and a perfect format example—to force a LLaMA model to return reliable, structured JSON for poster content. The `prompt_builder.py` module then dynamically assembles this text into a final, detailed prompt for the image model, including critical instructions on typography and layout to ensure legible text on the generated poster.
+- **Robustness through Fallbacks:** A key architectural decision was to implement a multi-model fallback mechanism in the `image_generator.py` and `extended_image_generator.py` modules. To ensure high availability, if the primary model (Imagen-4) fails, the system automatically retries the request with a series of secondary models (Imagen-3, Qwen-Image, Flux-Schnell-V2) until it succeeds. This demonstrates a production-oriented approach to building resilient AI systems.
+- **Intelligent Prompt Enhancement:** The `enhance_prompt.py` module uses the Kimi K2 model to act as an intelligent optimization layer, analyzing the user's prompt and aspect ratio to select the most suitable image models and rewrite the prompts specifically for each one, maximizing the quality of the output.
+
+**Key Technologies:**
+- **Backend:** FastAPI, Python, Render (Deployment)
+- **Frontend:** Angular, Vercel (Deployment)
+- **AI/ML:** Groq (LLaMA), Kimi K2, Imagen API (Imagen-4, Qwen, Flux)
+- **DevOps:** GitHub Actions for CI/CD
+
+---
+
+### Project 3: Sales Intent & Action Recommendation Engine
+
+**Vision & Objective:**
+This proof-of-concept is a highly accurate, two-stage AI engine designed to augment sales teams by automating intent detection from raw conversational data and recommending a strategic next-best-action. The system was intentionally designed to be lightweight and efficient, packaged as an interactive Streamlit widget that can run locally on 8GB of RAM, making it immediately usable for sales reps and ready for future CRM integration.
+
+**My Role & Architectural Philosophy:**
+I executed the entire machine learning lifecycle for this project. My philosophy was to use the right tool for the job, combining a specialized, fine-tuned model for a critical classification task with a general LLM for creative reasoning.
+- **Data & BERT Fine-Tuning:** I started with a dataset of 10,000 real-world sales journeys and performed rigorous preprocessing, including flattening multi-day conversations and implementing a stratified train-test split for balanced classes. I then fine-tuned a `bert-base-uncased` model, carefully setting hyperparameters like a 0.5 dropout rate, 0.15 label smoothing, and a Cosine learning rate scheduler with an EarlyStoppingCallback to prevent overfitting. This meticulous process resulted in a model that can classify 8 distinct sales intents with 95.1% accuracy and a 0.95 F1 Score.
+- **Action Generation with Phi-3 Mini:** For the second stage, I integrated the lightweight but powerful Phi-3 Mini model. I engineered a precise prompt template that provides the model with the customer feedback and the highly accurate BERT-predicted intent as context, enabling it to generate relevant and strategic next steps.
+- **Challenges & Learnings:** A significant challenge was model selection for the action-generation task. After finding TinyLLaMA's output to be incoherent and Mistral/Gemma to be too resource-intensive, I found Phi-3 Mini to be the perfect balance of coherence and performance. I also solved practical MLOps challenges like optimizing checkpoint resuming and manually exporting `.safetensors` to work within Kaggle's resource limits.
+
+**Key Technologies:**
+- **AI/ML:** BERT, Phi-3 Mini, Hugging Face Transformers, PyTorch, Scikit-learn, Pandas
+- **UI:** Streamlit
+
+---
+
+### Project 4: Insurance Risk Profiling and Prediction
+
+**Vision & Objective:**
+This project involved the development of a production-ready risk engine for a US insurance client, designed to perform three critical tasks: predict premium pricing (regression), classify customers into risk tiers (classification), and segment the customer base for targeted strategies (clustering). The solution was developed on a comprehensive synthetic dataset to prove methodological feasibility before applying to real-world data.
+
+**My Role & Architectural Philosophy:**
+As the lead on data engineering and modeling, my philosophy was to build a robust, interpretable, and multi-faceted solution that went beyond a single predictive model.
+- **Data Engineering & Feature Creation:** I engineered the entire data pipeline, starting with a 30-column dataset. A key challenge was standardizing inconsistent date-time columns, which I solved by using `pd.to_datetime` with robust parameters like `errors='coerce'` and `dayfirst='True'` to prevent parsing failures. I then moved to advanced feature engineering, creating new, highly predictive features like `Policy Duration`, `Income-to-Premium Ratio`, and a composite `Risk_Score` by combining `Credit Score` and `Driving Record`.
+- **Ensemble Modeling:** To deliver a comprehensive solution, I developed and evaluated a powerful 3-model ensemble:
+    1.  A **LightGBM Regressor** for premium prediction, achieving an R² of 0.92.
+    2.  A **Random Forest Classifier** for risk tier classification, reaching 90% accuracy.
+    3.  A **KMeans** model for customer segmentation into 8 distinct clusters.
+- **Addressing Industry-Specific Data Challenges:** A critical problem in insurance data is class imbalance (few people make claims). I tackled this directly by applying the **SMOTE (Synthetic Minority Over-sampling Technique)** to the training data, which significantly improved the classifier's performance and fairness on minority classes.
+- **Client-Facing Delivery:** The final models and insights were packaged into an interactive Streamlit dashboard, featuring risk charts and LDA visualizations, which allowed the client to directly engage with and understand the outputs of the risk engine.
+
+**Key Technologies:**
+- **AI/ML:** LightGBM, Random Forest, KMeans, SMOTE, Scikit-learn, Pandas
+- **UI & Visualization:** Streamlit, Matplotlib, Seaborn
