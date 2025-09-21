@@ -30,6 +30,8 @@ try:
         os.environ.get("GROQ_API_KEY_1"),
         os.environ.get("GROQ_API_KEY_2"),
         os.environ.get("GROQ_API_KEY_3"),
+        os.environ.get("GROQ_API_KEY_4"),
+        
     ]
     groq_clients = [
         AsyncOpenAI(api_key=key, base_url="https://api.groq.com/openai/v1")

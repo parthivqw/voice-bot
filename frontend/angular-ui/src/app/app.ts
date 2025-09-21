@@ -19,7 +19,7 @@ export class App {
   // --- PRIVATE PROPERTIES ---
   private mediaRecorder: MediaRecorder | null = null;
   private audioChunks: Blob[] = [];
-  private readonly backendUrl = 'http://127.0.0.1:8000/chat';
+  private readonly backendUrl = 'https://parthiv-ai-twin-backend.onrender.com/chat';
 
   constructor(private http: HttpClient) {
     // Effect to handle dynamic status messages
