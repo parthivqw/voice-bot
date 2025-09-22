@@ -1,7 +1,8 @@
 import { Component, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-
+// Add this import at the top:
+import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,7 +20,9 @@ export class App {
   // --- PRIVATE PROPERTIES ---
   private mediaRecorder: MediaRecorder | null = null;
   private audioChunks: Blob[] = [];
-  private readonly backendUrl = 'https://parthiv-ai-twin-backend.onrender.com/chat';
+  // private readonly backendUrl = 'https://parthiv-ai-twin-backend.onrender.com/chat';
+  // Replace with:
+private readonly backendUrl = `${environment.apiUrl}/chat`;
 
   constructor(private http: HttpClient) {
     // Effect to handle dynamic status messages
