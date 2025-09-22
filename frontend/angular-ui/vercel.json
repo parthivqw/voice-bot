@@ -1,6 +1,14 @@
 {
-  "buildCommand": "cd frontend/angular-ui && npm install && npm run build",
-  "outputDirectory": "frontend/angular-ui/dist/angular-ui",
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/angular-ui/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/angular-ui"
+      }
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
