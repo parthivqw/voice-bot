@@ -68,24 +68,7 @@ This ensures **clean, English-only, controlled** voice output.
 
 ---
 
-## 🏗️ Architecture Diagram
-```mermaid
-graph TD
-    User[🎤 User Audio] --> STT[Whisper Large V3]
-    STT --> Router{Semantic Router<br>Llama 3.1 8B}
 
-    Router -- "Known Intent" --> RAM[RAM Audio Cache<br>(Preloaded)]
-    Router -- "Deep Query" --> Researcher[Researcher LLM (GPT-OSS-120B)]
-
-    Researcher --> Summarizer[Summarizer LLM 70B]
-    Summarizer --> Validator[Language Drift Validator]
-
-    RAM --> Stream[🔊 Audio Stream → UI]
-    Validator --> TTS[Groq PlayAI TTS<br>multi-key failover]
-    TTS --> Stream
-
-    Stream --> UI[Frontend UI<br>HTML+JS Glassmorphism]
-```
 
 ---
 
