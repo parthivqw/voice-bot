@@ -1,245 +1,239 @@
-🎙️ AI Twin Voice Bot
-End-to-End Audio Intelligence • Ultra-Low Latency • Persona-Driven Agentic System
+# 🎙️ AI Twin Voice Bot
 
-
-
-
-
+### **End-to-End Audio Intelligence • Ultra-Low Latency • Persona-Driven Agentic System**
 
 A production-grade, fully asynchronous voice AI agent that mimics a specific persona (Parthiv S) to answer interview-style questions.
-Engineered for zero budgeting, near-instant responses, and strict hallucination control.
+Engineered for **zero-budgeting**, **near-instant responses**, and **strict hallucination control**.
 
-This bot combines a Hybrid Memory Architecture, massive-context reasoning, and resilient audio streaming to deliver a natural, real-time conversational experience.
+This bot combines a **Hybrid Memory Architecture**, **massive-context reasoning**, and **resilient audio streaming** to deliver a natural, real-time conversational experience.
 
-🚀 Features & Engineering Highlights
-🔥 1. Hybrid Memory Architecture (Instant + Deep Reasoning)
+---
+
+## 🚀 Features & Engineering Highlights
+
+### 🔥 1. Hybrid Memory Architecture (Instant + Deep Reasoning)
 
 The bot chooses between two thinking modes:
 
-⚡ Fast Path (0ms latency) — RAM “Golden Answers”
+#### ⚡ **Fast Path (0ms latency) — RAM "Golden Answers"**
 
 For predictable queries like:
 
-“Tell me about yourself”
-
-“What are your strengths?”
+* "Tell me about yourself"
+* "What are your strengths?"
 
 A semantic router instantly maps the intent → RAM audio cache.
 
-No DB calls
+* No DB calls
+* No LLM calls
+* No TTS calls
 
-No LLM calls
+👉 **Pure instant audio playback.**
 
-No TTS calls
+#### 🧠 **Slow Path (Deep Research Mode) — 120B Researcher Model**
 
-Just pure instant audio playback.
+When a question is complex or unique, the system invokes the massive-context researcher model and synthesizes a personalized answer using:
 
-🧠 Slow Path (Deep Research Mode) — Massive Context LLM
+* `persona.json`
+* `project_chunks.txt`
+* 200k+ token context
+* Strict identity enforcement
 
-For complex queries like:
-“Explain your AI Market Intelligence pipeline end-to-end.”
+---
 
-A 120B “Researcher” model synthesizes the answer using:
+## 🔐 2. Defense-in-Depth Language Guardrails
 
-persona.json
+Stops Spanish drift or hallucinations with:
 
-project_chunks.txt
+* Forced-English Whisper STT
+* `langdetect` validation
+* Auto-correction via Llama-8B Translation/Fixer
+* Summarizer with:
 
-Context window (>200k tokens)
+  * 4–5 sentences
+  * 70–80 words
+  * No preamble keywords
+  * No incomplete sentences
 
-Strict persona identity constraints
+This ensures **clean, English-only, controlled** voice output.
 
-🔐 2. Defense-in-Depth Language Guardrail System
+---
 
-To stop Spanish drift or LLM hallucination:
+## 🎛️ 3. Resiliency Cascades (Zero-Failure Audio)
 
-Whisper STT forced to English
+* ✔ Multiple Groq API key failover
+* ✔ Fallback to gTTS (Google TTS)
+* ✔ Custom TokenTracker for TPM enforcement
+* ✔ Handles Render cold starts gracefully
 
-langdetect validator checks every LLM output
+---
 
-If drift detected → “Fixer LLM” (Llama-8b) auto-translates
-
-Summarizer enforces:
-
-4–5 sentences
-
-70–80 words
-
-No preambles
-
-No broken sentences
-
-This stack ensures the bot sounds clean, precise, and perfectly in-character.
-
-🎛️ 3. Resiliency Cascades (Zero-Failure Audio)
-✔ Multi-key Groq TTS failover
-
-If one API key fails → automatically switches to next.
-
-✔ Full fallback to Google gTTS
-
-Even if all Groq keys fail → the bot still speaks.
-
-✔ Token Tracker
-
-Prevents API throttling by estimating tokens per TTS request.
-
-🏗️ System Architecture
+## 🏗️ Architecture Diagram
+```mermaid
 graph TD
-    User[User Microphone Input] --> STT[Whisper Large V3]
+    User[🎤 User Audio] --> STT[Whisper Large V3]
     STT --> Router{Semantic Router<br>Llama 3.1 8B}
 
-    Router -- "Known Intent" --> RAM[RAM Audio Cache<br>(Preloaded from Supabase)]
-    Router -- "Unknown / Deep Query" --> Researcher[Researcher LLM (GPT-OSS-120B)]
+    Router -- "Known Intent" --> RAM[RAM Audio Cache<br>(Preloaded)]
+    Router -- "Deep Query" --> Researcher[Researcher LLM (GPT-OSS-120B)]
 
-    Researcher --> Summarizer[Summarizer Agent (Llama-70B)]
+    Researcher --> Summarizer[Summarizer LLM 70B]
     Summarizer --> Validator[Language Drift Validator]
 
-    RAM --> Stream[Audio Stream ↦ UI]
-    Validator --> TTS[Groq PlayAI / Multi-Key Failover]
+    RAM --> Stream[🔊 Audio Stream → UI]
+    Validator --> TTS[Groq PlayAI TTS<br>multi-key failover]
     TTS --> Stream
 
-    Stream --> UI[Frontend<br>HTML+JS Glassmorphic UI]
+    Stream --> UI[Frontend UI<br>HTML+JS Glassmorphism]
+```
 
-🛠️ Tech Stack
-Backend
+---
 
-Python 3.11
+## 🛠️ Tech Stack
 
-FastAPI
+### **Backend**
 
-Uvicorn
+* Python 3.11
+* FastAPI
+* Uvicorn
+* Async Groq API SDK
 
-AsyncOpenAI SDK
+### **AI Models**
 
-Groq Cloud (Whisper / Llama / GPT-OSS / PlayAI TTS)
+* Whisper Large V3
+* Llama 3.1 8B (router)
+* Llama 3.3 70B (summarizer)
+* GPT-OSS-120B (researcher)
+* PlayAI TTS
 
-Memory & Storage
+### **Storage**
 
-Supabase (PostgreSQL)
+* Supabase (PostgreSQL)
+* Base64 encoded audio blobs
+* RAM hydration at startup
 
-Base64 audio storage
+### **Frontend**
 
-RAM hydration on startup
+* Vanilla JS
+* HTML
+* CSS Glassmorphism
+* Streaming audio playback
 
-Frontend
+### **Deployment**
 
-Vanilla JS
+* Render (Backend)
+* GitHub Pages / Vercel (Frontend)
 
-Glassmorphism UI
+---
 
-Streaming audio playback
+## ⚙️ Local Setup
 
-Render “wake-up” ping endpoint
-
-Deployment
-
-Render (Backend)
-
-GitHub Pages / Vercel (Frontend)
-
-⚙️ Installation & Setup
-1. Clone + Environment Setup
+### 1. Clone Repo
+```bash
 git clone https://github.com/parthivqw/voice-bot.git
 cd voice-bot/backend
+```
+
+---
+
+### 2. Environment Setup
+```bash
 python -m venv venv
-venv\Scripts\activate   # On Windows
+venv\Scripts\activate   # Windows
 pip install -r requirements.txt
+```
 
-2. Configure .env
+---
 
-Create this file inside /backend:
-
-# Groq API Keys
+### 3. Create `.env`
+```
+# Groq
 GROQ_API_KEY_1=gsk_...
 GROQ_API_KEY_2=gsk_...
 GROQ_API_KEY_3=gsk_...
 
 # Supabase
-SUPABASE_URL=https://yourproject.supabase.co
+SUPABASE_URL=https://xxx.supabase.co
 SUPABASE_KEY=public_anon_key
 SUPABASE_SERVICE_ROLE_KEY=service_role_key
+```
 
-3. Seed the Memory (Generate “Golden Audio”)
+---
 
-This script generates:
-
-Base64 audio files
-
-Canonical Q/A answers
-
-Uploads to Supabase
-
-Prepares RAM cache
-
+### 4. Seed Memory (Generate "Golden Audio")
+```bash
 python seeder.py
+```
 
-4. Run the Backend
+---
+
+### 5. Run Backend Server
+```bash
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
 
-
-Look for:
-
+You should see:
+```
 🚀 Cache Hydrated: X items loaded into RAM.
+```
 
-🧩 API Endpoints
-🎤 POST /chat
+---
 
-Send raw audio → receive streaming audio response.
+## 🧪 API Endpoints
 
-✍️ POST /chat/text
+### **POST /chat**
 
-Silent mode (text input → audio stream)
+Audio → Audio (stream)
 
-🌡️ GET /health
+### **POST /chat/text**
 
-Used by frontend to wake Render free tier.
+Text → Audio (stream)
 
-🧠 Engineering Rationale
-1. ❌ Why Not RAG?
+### **GET /health**
 
-RAG required:
+Render warm-up ping
 
-FAISS index in memory
+---
 
-Embedding model
+## 🧠 Engineering Rationale
 
-1GB RAM usage
+### ❌ Why Not RAG?
 
-Render free tier = 512MB RAM → instant OOM crashes.
+Render free tier = **512MB**
+RAG with embeddings + FAISS = **1GB+ RAM**
 
-Solution:
-Used massive context prompting instead of embeddings.
+→ Crashes instantly
+→ Switched to **Massive Context Prompting** (120B)
 
-2. ⚡ Why Supabase + RAM?
+### ⚡ Why RAM Caching?
 
-DB fetch latency = 400–800ms
+Supabase fetch latency = 400–800ms
 RAM lookup = <1ms
 
-Golden audio = ~2MB ⇒ perfect for memory hydration.
+→ 400× faster responses
 
-3. 📝 “Header Hijack” Trick
+### 📝 Why Header Hijack?
 
-We inject the transcript into this header:
+We embed text response in HTTP header:
 
-X-AI-Response-Text
+`X-AI-Response-Text`
 
+→ Enables typewriter effect **without WebSockets**
 
-Allows frontend to show “typewriter effect”
-without WebSockets.
+---
 
-🔮 Future Upgrades
+## 🔮 Future Roadmap
 
- HeyGen avatar video synthesis
+* [ ] HeyGen Video Avatar
+* [ ] LangGraph multi-agent refactor
+* [ ] Socket.IO interrupt support
+* [ ] Telemetry dashboards
 
- LangGraph rewrite (Node-based agentic reasoning)
+---
 
- Socket.IO interruption support
+## 👨‍💻 Author
 
- Telemetry dashboards (router accuracy vs fallback rate)
-
-👨‍💻 Author
-Parthiv S
-
+**Parthiv S**
 AI/ML Engineer • Multi-Agent Systems • GenAI Specialist
-Kerala, India
+
+---
